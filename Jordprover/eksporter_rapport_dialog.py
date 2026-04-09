@@ -23,13 +23,35 @@ def _val(feat, name):
         return ''
 
 
+def _resolve_path(path):
+    """Løs relativ sti op mod projektmappen og dens 'files'-undermappe."""
+    if not path:
+        return None
+    path = str(path)
+    if os.path.isabs(path) and os.path.isfile(path):
+        return path
+    # Brug projektmappen som rod
+    project_path = QgsProject.instance().absolutePath()
+    if project_path:
+        candidates = [
+            os.path.join(project_path, path),
+            os.path.join(project_path, '..', path),
+        ]
+        for candidate in candidates:
+            resolved = os.path.normpath(candidate)
+            if os.path.isfile(resolved):
+                return resolved
+    return None
+
+
 def _img_tag(path):
-    if not path or not os.path.isfile(str(path)):
+    resolved = _resolve_path(path)
+    if not resolved:
         return '<span style="color:#bbb;font-style:italic;">Intet foto</span>'
     try:
-        with open(path, 'rb') as f:
+        with open(resolved, 'rb') as f:
             data = base64.b64encode(f.read()).decode()
-        ext = os.path.splitext(path)[1].lower().lstrip('.')
+        ext = os.path.splitext(resolved)[1].lower().lstrip('.')
         mime = 'jpeg' if ext in ('jpg', 'jpeg') else ext
         return f'<img src="data:image/{mime};base64,{data}" style="max-width:100%;max-height:180px;">'
     except Exception:
