@@ -36,11 +36,10 @@ JORDTYPE_VALG = [
 # (feltnavn, type, alias, widget-type, widget-config)
 STANDARD_FIELDS = [
     ('status',      QVariant.String,  'Status',          'ValueMap',        {'map': [{VAL_IKKE: VAL_IKKE}, {VAL_UDTAGET: VAL_UDTAGET}]}),
-    ('Vol.lgd',     QVariant.Double,  'Volumen lgd',     'TextEdit',        {}),
-    ('Udtaget',     QVariant.String,  'Udtaget',         'TextEdit',        {}),
-    ('Tørv. Ty.',   QVariant.Double,  'Tørvetykkelse',   'TextEdit',        {}),
-    ('Perm.',       QVariant.Double,  'Permeabilitet',   'TextEdit',        {}),
-    ('VSP',         QVariant.Double,  'Vandspejl',       'TextEdit',        {}),
+    ('Vol.lgd',     QVariant.Double,  'Volumen lgd (cm)',     'TextEdit',        {}),
+    ('Udtaget',     QVariant.String,  'Udtaget',              'TextEdit',        {}),
+    ('Tørv. Ty.',   QVariant.Double,  'Tørvetykkelse (cm)',   'TextEdit',        {}),
+    ('VSP',         QVariant.Double,  'Vandspejl (cm)',       'TextEdit',        {}),
     ('Foto',        QVariant.String,  'Foto af prøve',   'ExternalResource', {'StorageType': '0', 'DocumentViewer': '0', 'FileWidget': '1', 'FileWidgetButton': '1'}),
     ('lag 1',       QVariant.String,  'Lag 1 (cm)',      'TextEdit',        {}),
     ('lag 1 type',  QVariant.String,  'Lag 1 jordtype',  'ValueMap',        {'map': [{v: v} for v in JORDTYPE_VALG]}),

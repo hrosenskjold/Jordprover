@@ -2,7 +2,7 @@
 name=Jordprover
 qgisMinimumVersion=3.0
 description=Plugin til håndtering af jordprøver
-version=1.0.1
+version=1.0.2
 author=
 email=
 about=Plugin med værktøjer til grid, centerpunkter, QField-klargøring og rapporteksport.
