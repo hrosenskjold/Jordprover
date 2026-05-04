@@ -328,11 +328,17 @@ class LavGridDialog(QtWidgets.QDialog, FORM_CLASS):
 
         result = []
         for piece in pieces:
-            # Only recurse for size violations.  The initial n already accounts for
-            # the ratio constraint, so recursive ratio-splitting is not needed and
-            # risks creating thin slivers in concave polygons.
             if piece.area() / 10000 > max_ha:
-                result.extend(self._subdivide(piece, avg_ha, max_ha, min_ha, depth + 1))
+                # Only recurse if piece is roughly convex — cutting a concave piece
+                # through its complex boundary creates GEOS sliver artefacts.
+                hull = piece.convexHull()
+                convex_ratio = (piece.area() / hull.area()
+                                if hull and not hull.isNull() and hull.area() > 0
+                                else 1.0)
+                if convex_ratio >= 0.85:
+                    result.extend(self._subdivide(piece, avg_ha, max_ha, min_ha, depth + 1))
+                else:
+                    result.append(piece)
             else:
                 result.append(piece)
         return result if result else [geom]
